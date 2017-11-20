@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		180485331FB076E400BE54EB /* PELLET.c in Sources */ = {isa = PBXBuildFile; fileRef = 180485321FB076E400BE54EB /* PELLET.c */; };
-		180485351FB076EE00BE54EB /* FISH.c in Sources */ = {isa = PBXBuildFile; fileRef = 180485341FB076EE00BE54EB /* FISH.c */; };
-		180485371FB076F700BE54EB /* SWIM_MILL.c in Sources */ = {isa = PBXBuildFile; fileRef = 180485361FB076F700BE54EB /* SWIM_MILL.c */; };
+		183A8F9B1FC247B1006362E2 /* Sem_Init.c in Sources */ = {isa = PBXBuildFile; fileRef = 183A8F9A1FC247B1006362E2 /* Sem_Init.c */; };
+		187FC8FC1FC0BE5D008F52C4 /* Semget.c in Sources */ = {isa = PBXBuildFile; fileRef = 187FC8FB1FC0BE5D008F52C4 /* Semget.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		18BDEFEA1FB0698C005AA164 /* CopyFiles */ = {
+		187FC8F61FC0BE5D008F52C4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -25,14 +24,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		180485321FB076E400BE54EB /* PELLET.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PELLET.c; sourceTree = "<group>"; };
-		180485341FB076EE00BE54EB /* FISH.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = FISH.c; sourceTree = "<group>"; };
-		180485361FB076F700BE54EB /* SWIM_MILL.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = SWIM_MILL.c; sourceTree = "<group>"; };
-		18BDEFEC1FB0698C005AA164 /* SWIM_MILL */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SWIM_MILL; sourceTree = BUILT_PRODUCTS_DIR; };
+		183A8F9A1FC247B1006362E2 /* Sem_Init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Sem_Init.c; sourceTree = "<group>"; };
+		187FC8F81FC0BE5D008F52C4 /* SemaphorePractice */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SemaphorePractice; sourceTree = BUILT_PRODUCTS_DIR; };
+		187FC8FB1FC0BE5D008F52C4 /* Semget.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Semget.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		18BDEFE91FB0698C005AA164 /* Frameworks */ = {
+		187FC8F51FC0BE5D008F52C4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,100 +40,98 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		18BDEFE31FB0698C005AA164 = {
+		187FC8EF1FC0BE5D008F52C4 = {
 			isa = PBXGroup;
 			children = (
-				18BDEFEE1FB0698C005AA164 /* SWIM_MILL */,
-				18BDEFED1FB0698C005AA164 /* Products */,
+				187FC8FA1FC0BE5D008F52C4 /* SemaphorePractice */,
+				187FC8F91FC0BE5D008F52C4 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		18BDEFED1FB0698C005AA164 /* Products */ = {
+		187FC8F91FC0BE5D008F52C4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				18BDEFEC1FB0698C005AA164 /* SWIM_MILL */,
+				187FC8F81FC0BE5D008F52C4 /* SemaphorePractice */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		18BDEFEE1FB0698C005AA164 /* SWIM_MILL */ = {
+		187FC8FA1FC0BE5D008F52C4 /* SemaphorePractice */ = {
 			isa = PBXGroup;
 			children = (
-				180485361FB076F700BE54EB /* SWIM_MILL.c */,
-				180485341FB076EE00BE54EB /* FISH.c */,
-				180485321FB076E400BE54EB /* PELLET.c */,
+				187FC8FB1FC0BE5D008F52C4 /* Semget.c */,
+				183A8F9A1FC247B1006362E2 /* Sem_Init.c */,
 			);
-			path = SWIM_MILL;
+			path = SemaphorePractice;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		18BDEFEB1FB0698C005AA164 /* SWIM_MILL */ = {
+		187FC8F71FC0BE5D008F52C4 /* SemaphorePractice */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 18BDEFF31FB0698D005AA164 /* Build configuration list for PBXNativeTarget "SWIM_MILL" */;
+			buildConfigurationList = 187FC8FF1FC0BE5D008F52C4 /* Build configuration list for PBXNativeTarget "SemaphorePractice" */;
 			buildPhases = (
-				18BDEFE81FB0698C005AA164 /* Sources */,
-				18BDEFE91FB0698C005AA164 /* Frameworks */,
-				18BDEFEA1FB0698C005AA164 /* CopyFiles */,
+				187FC8F41FC0BE5D008F52C4 /* Sources */,
+				187FC8F51FC0BE5D008F52C4 /* Frameworks */,
+				187FC8F61FC0BE5D008F52C4 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = SWIM_MILL;
-			productName = SWIM_MILL;
-			productReference = 18BDEFEC1FB0698C005AA164 /* SWIM_MILL */;
+			name = SemaphorePractice;
+			productName = SemaphorePractice;
+			productReference = 187FC8F81FC0BE5D008F52C4 /* SemaphorePractice */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		18BDEFE41FB0698C005AA164 /* Project object */ = {
+		187FC8F01FC0BE5D008F52C4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Scott Roberts";
 				TargetAttributes = {
-					18BDEFEB1FB0698C005AA164 = {
+					187FC8F71FC0BE5D008F52C4 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 76L7TE6FBV;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 18BDEFE71FB0698C005AA164 /* Build configuration list for PBXProject "SWIM_MILL" */;
+			buildConfigurationList = 187FC8F31FC0BE5D008F52C4 /* Build configuration list for PBXProject "SemaphorePractice" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 18BDEFE31FB0698C005AA164;
-			productRefGroup = 18BDEFED1FB0698C005AA164 /* Products */;
+			mainGroup = 187FC8EF1FC0BE5D008F52C4;
+			productRefGroup = 187FC8F91FC0BE5D008F52C4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				18BDEFEB1FB0698C005AA164 /* SWIM_MILL */,
+				187FC8F71FC0BE5D008F52C4 /* SemaphorePractice */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		18BDEFE81FB0698C005AA164 /* Sources */ = {
+		187FC8F41FC0BE5D008F52C4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				180485371FB076F700BE54EB /* SWIM_MILL.c in Sources */,
-				180485331FB076E400BE54EB /* PELLET.c in Sources */,
-				180485351FB076EE00BE54EB /* FISH.c in Sources */,
+				187FC8FC1FC0BE5D008F52C4 /* Semget.c in Sources */,
+				183A8F9B1FC247B1006362E2 /* Sem_Init.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		18BDEFF11FB0698D005AA164 /* Debug */ = {
+		187FC8FD1FC0BE5D008F52C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -176,14 +172,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
-		18BDEFF21FB0698D005AA164 /* Release */ = {
+		187FC8FE1FC0BE5D008F52C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -218,24 +214,26 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
 			name = Release;
 		};
-		18BDEFF41FB0698D005AA164 /* Debug */ = {
+		187FC9001FC0BE5D008F52C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 76L7TE6FBV;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
-		18BDEFF51FB0698D005AA164 /* Release */ = {
+		187FC9011FC0BE5D008F52C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 76L7TE6FBV;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -243,25 +241,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		18BDEFE71FB0698C005AA164 /* Build configuration list for PBXProject "SWIM_MILL" */ = {
+		187FC8F31FC0BE5D008F52C4 /* Build configuration list for PBXProject "SemaphorePractice" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				18BDEFF11FB0698D005AA164 /* Debug */,
-				18BDEFF21FB0698D005AA164 /* Release */,
+				187FC8FD1FC0BE5D008F52C4 /* Debug */,
+				187FC8FE1FC0BE5D008F52C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		18BDEFF31FB0698D005AA164 /* Build configuration list for PBXNativeTarget "SWIM_MILL" */ = {
+		187FC8FF1FC0BE5D008F52C4 /* Build configuration list for PBXNativeTarget "SemaphorePractice" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				18BDEFF41FB0698D005AA164 /* Debug */,
-				18BDEFF51FB0698D005AA164 /* Release */,
+				187FC9001FC0BE5D008F52C4 /* Debug */,
+				187FC9011FC0BE5D008F52C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 18BDEFE41FB0698C005AA164 /* Project object */;
+	rootObject = 187FC8F01FC0BE5D008F52C4 /* Project object */;
 }
