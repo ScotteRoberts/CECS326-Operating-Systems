@@ -39,16 +39,16 @@ int main(int argc, char *argv[])
     sem_wait(x.semaphore);
     printf("Process: %d\n", getpid());
     sem_post(x.semaphore);
-    sleep(1);
+    //sleep(1);
     if(pid == 0)
     {
         printf("Child dying...\n");
         exit(EXIT_SUCCESS);
     }
+    wait(NULL);
     CloseSemaphore(x.semaphore);
     UnlinkSemaphore(x.namedLocation);
     printf("I made it!\n");
-    wait(NULL);
     exit(EXIT_SUCCESS);
 }
 
