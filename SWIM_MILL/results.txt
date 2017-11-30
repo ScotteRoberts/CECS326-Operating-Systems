@@ -1,14 +1,14 @@
-Pellet 150073344 was eaten at column 1!
-Pellet 150609920 wasn't eaten and left stream at column 8
-Pellet 152219648 was eaten at column 5!
-Pellet 151146496 wasn't eaten and left stream at column 7
-Pellet 151683072 wasn't eaten and left stream at column 3
-Pellet 153292800 wasn't eaten and left stream at column 7
-Pellet 152756224 was eaten at column 6!
-Pellet 154365952 wasn't eaten and left stream at column 1
-Pellet 155439104 wasn't eaten and left stream at column 8
-Pellet 155975680 was eaten at column 6!
-Pellet 153829376 wasn't eaten and left stream at column 3
-Pellet 154902528 was eaten at column 5!
-Pellet 157048832 was eaten at column 5!
-Pellet 158121984 wasn't eaten and left stream at column 4
+Pellet 193134592 wasn't eaten and left stream at column 2
+Pellet 193671168 was eaten at column 4!
+Pellet 194744320 wasn't eaten and left stream at column 6
+Pellet 195817472 wasn't eaten and left stream at column 7
+Pellet 195280896 wasn't eaten and left stream at column 7
+Pellet 196354048 was eaten at column 5!
+Pellet 194207744 wasn't eaten and left stream at column 2
+Pellet 196890624 wasn't eaten and left stream at column 3
+Pellet 197963776 wasn't eaten and left stream at column 5
+Pellet 197427200 was eaten at column 8!
+Pellet 199036928 wasn't eaten and left stream at column 2
+Pellet 198500352 wasn't eaten and left stream at column 4
+Pellet 199573504 wasn't eaten and left stream at column 1
+Pellet 201183232 was eaten at column 2!

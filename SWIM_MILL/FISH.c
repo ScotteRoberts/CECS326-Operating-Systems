@@ -5,44 +5,13 @@
 //  Created by Scott Roberts on 9/29/17.
 //  Copyright © 2017 Scott Roberts. All rights reserved.
 //
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <sys/wait.h>
-#include <sys/sem.h>
-#include <semaphore.h>
-#include <stdbool.h>
-#include <signal.h>
-
-// Shared Memory Variables
-const int ROWS = 10;
-const int COLUMNS = 10;
-const key_t key = 1000;
-int shmID;
-char (*grid)[ROWS][COLUMNS];
-
-// Shared Memory Functions
-void GetSharedMemory();
-void AttachSharedMemory();
-void DetachSharedMemory();
-void RemoveSharedMemory();
-
-// Semaphore Variables
-#define SEM_LOCATION "/semaphore"
-sem_t (*semaphore);
-
-// Semaphore Functions
-void OpenSemaphore();
-void CloseSemaphore();
+#include "gvariables.h"
 
 // Fish Variables
 int fishColumn = ROWS/2;
 
 // Fish Functions
+int * LocatePellets(int);
 void OnInterruptSignal();
 void OnEndSignal();
 void MoveFish(int);
@@ -59,25 +28,19 @@ int main(int argc, char *argv[])
     // Attach process to shared memory
     GetSharedMemory();
     AttachSharedMemory();
+    OpenSemaphore();
     
     while(1)
     {
         // Start from bottom and go to top, checking all rows for pellets
         for(int row = (ROWS-2); row >= 0; row--)
-        {
-            // Locate any pellets on the current row
-            int currentRowPellets[COLUMNS] = {0};
-            for (int col = 0; col < COLUMNS; col++)
-            {
-                if((*grid)[row][col] == 'P')
-                {
-                    currentRowPellets[col] = 1;
-                }
-            }
-            
+        { 
+            // Find the pellets for the given row.
+            int* pelletLocations = LocatePellets(row);
+
             // If the row just above you has a pellet that is directly
             // in front of you, then don't move for a turn.
-            if(row == (ROWS-2) && currentRowPellets[fishColumn] == 1)
+            if(row == (ROWS-2) && pelletLocations[fishColumn] == 1)
             {
                 sleep(1);
                 break;
@@ -88,18 +51,9 @@ int main(int argc, char *argv[])
                 // Zero out the closest pellet to assign later.
                 int closestPellet = -1;
                 
-                /* Find the closest pellet in the row if the fish can
-                 even reach that space by the time the pellet falls out*/
-                /*
-                 int hDistance = fishColumn - col;
-                 if (hDistance < 0) hDistance = hDistance * -1;
-                 int vDistance = fishRow - row;
-                 int slope = vDistance / hDistance;
-                 */
-                
                 for(int col = 0; col < COLUMNS; col++)
                 {
-                    if(currentRowPellets[col] == 1)
+                    if(pelletLocations[col] == 1)
                     {
                         closestPellet = col;
                         break;
@@ -112,18 +66,14 @@ int main(int argc, char *argv[])
                     // Move left if the Closest pellet is in a column to your left.
                     if(closestPellet > fishColumn)
                     {
-                        sem_wait(semaphore);
                         MoveFish(1);
-                        sem_post(semaphore);
                     }
-                    
                     // Move right if the Closest pellet is in a column to your right.
                     else
                     {
-                        sem_wait(semaphore);
                         MoveFish(-1);
-                        sem_post(semaphore);
                     }
+                        
                     
                     // Wait for the next turn to look again
                     sleep(1);
@@ -134,64 +84,39 @@ int main(int argc, char *argv[])
     }
 }
 
-// Create the allocated memory for the shared memory.
-void GetSharedMemory()
-{
-    if((shmID = shmget(key, sizeof(grid), IPC_CREAT | 0666)) < 0)
-    {
-        perror("shmget");
-        exit(1);
+int* LocatePellets(int currentRow) {
+    int pelletLocations[10] = {0};
+    int range, start, end;
+    
+    /* For a given row, the fish can only reach +/-
+     ((totalRows - 1) - currentRow) spaces away from it */
+    range = ((ROWS - 1) - currentRow);
+    
+    /* If the range to the left of the fish is out
+     out of bounds, just set the min left range to 0 */
+    start = currentRow - range;
+    if(start < 0) start = 0;
+    
+    /* If the range to the right of the fish is out
+     out of bounds, just set the min left range to last col */
+    end = currentRow + range;
+    if(end >= COLUMNS) end = (COLUMNS - 1);
+    
+    // Start from min reachable range (left) from fish
+    for(int i = start; i < fishColumn; i++) {
+        if((*grid)[currentRow][i] == 'P')
+            pelletLocations[i] = 1;
     }
-}
-
-// Attach pointer to the allocated memory from shmget().
-void AttachSharedMemory()
-{
-    if((grid = shmat(shmID, NULL, 0)) == (char *)-1)
-    {
-        perror("shmat");
-        exit(1);
+    
+    // Start from fish position to max range (right)
+    for(int i = fishColumn; i <= end; i++) {
+        if((*grid)[currentRow][i] == 'P')
+            pelletLocations[i] = 1;
     }
-}
-
-// Remove memory pointer from the allocated memory.
-void DetachSharedMemory()
-{
-    if (shmdt(grid) == -1)
-    {
-        perror("shmdt");
-        exit(1);
-    }
-}
-
-// Remove the allocated memory from shared memory.
-void RemoveSharedMemory()
-{
-    if(shmctl(shmID, IPC_RMID, 0) == -1)
-    {
-        perror("shmctl");
-        exit(1);
-    }
-}
-
-// Retrieve a semaphore from a named location.
-void OpenSemaphore()
-{
-    if ((semaphore = sem_open(SEM_LOCATION, 0)) == SEM_FAILED )
-    {
-        perror("sem_open");
-        exit(EXIT_FAILURE);
-    }
-}
-
-// Close a semaphore to deny access.
-void CloseSemaphore()
-{
-    if (sem_close(semaphore) == -1)
-    {
-        perror("sem_close");
-        exit(EXIT_FAILURE);
-    }
+    
+    /* Array will be all 0's, except where a pellet exists
+     and the fish can reach it, then that index will be a 1 */
+    return pelletLocations;
 }
 
 // The Fish will move left if the direction is negative and
@@ -199,9 +124,11 @@ void CloseSemaphore()
 void MoveFish(int direction)
 {
     // Previous position needs updating similar to a linked list.
+    sem_wait(semaphore);
     (*grid)[ROWS-1][fishColumn] = '~';
     fishColumn += direction;
     (*grid)[ROWS-1][fishColumn] = 'F';
+    sem_post(semaphore);
 }
 
 // Handler function for receiving an Interrupt (^C).

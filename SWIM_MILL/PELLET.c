@@ -5,43 +5,7 @@
 //  Created by Scott Roberts on 9/29/17.
 //  Copyright © 2017 Scott Roberts. All rights reserved.
 //
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <sys/wait.h>
-#include <stdbool.h>
-#include <signal.h>
-#include <sys/sem.h>
-#include <semaphore.h>
-#include <time.h>
-#include <pthread.h>
-#include <errno.h>
-
-// Shared Memory Variables
-#define TIME_LIMIT 30
-const int ROWS = 10;
-const int COLUMNS = 10;
-const key_t key = 1000;
-int shmID;
-char (*grid)[ROWS][COLUMNS];
-
-
-// Shared Memory Functions
-void GetSharedMemory();
-void AttachSharedMemory();
-void DetachSharedMemory();
-void RemoveSharedMemory();
-
-// Semaphore Variables
-#define SEM_LOCATION "/semaphore"
-sem_t (*semaphore);
-
-// Semaphore Functions
-void OpenSemaphore();
-void CloseSemaphore();
+#include "gvariables.h"
 
 //Pellet Functions
 void catchKillSig();
@@ -49,7 +13,6 @@ void catchEndSig();
 void OnInterruptSignal();
 void OnEndSignal();
 static void *child(void*);
-
 
 // Pellet Variables
 #define MAX_THREADS 20
@@ -69,6 +32,8 @@ int main(int argc, char *argv[])
     // Attach process to shared memory
     GetSharedMemory();
     AttachSharedMemory();
+
+    OpenSemaphore();
     
     // Set the Random Number generator with the seed
     srand(time(NULL));
@@ -133,9 +98,9 @@ static void *child(void* ignored)
         // Overwrite previous position with grid symbol
         if((*grid)[pelletCol-1][pelletRow] != 'F')
         {
-            sem_wait(semaphore);
+            //sem_wait(semaphore);
             (*grid)[pelletCol-1][pelletRow] = '~';
-            sem_post(semaphore);
+            //sem_post(semaphore);
 
         }
         
@@ -153,6 +118,7 @@ static void *child(void* ignored)
     
     
     // Append pellet results to file
+    //sem_wait(semaphore);
     FILE *fp;
     fp = fopen("results.txt", "a");
     if(fp == NULL)
@@ -168,69 +134,8 @@ static void *child(void* ignored)
             fprintf(fp, "Pellet %d wasn't eaten and left stream at column %d\n", pthread_self(), pelletRow);
         fclose(fp);
     }
-    
-    printf("Pellet %d is exiting.\n", pthread_self());
+    //sem_post(semaphore);
     return NULL;
-}
-
-// Create the allocated memory for the shared memory.
-void GetSharedMemory()
-{
-    if((shmID = shmget(key, sizeof(grid), IPC_CREAT | 0666)) < 0)
-    {
-        perror("shmget");
-        exit(1);
-    }
-}
-
-// Attach pointer to the allocated memory from shmget().
-void AttachSharedMemory()
-{
-    if((grid = shmat(shmID, NULL, 0)) == (char *)-1)
-    {
-        perror("shmat");
-        exit(1);
-    }
-}
-
-// Remove memory pointer from the allocated memory.
-void DetachSharedMemory()
-{
-    if (shmdt(grid) == -1)
-    {
-        perror("shmdt");
-        exit(1);
-    }
-}
-
-// Remove the allocated memory from shared memory.
-void RemoveSharedMemory()
-{
-    if(shmctl(shmID, IPC_RMID, 0) == -1)
-    {
-        perror("shmctl");
-        exit(1);
-    }
-}
-
-// Retrieve a semaphore from a named location.
-void OpenSemaphore()
-{
-    if ((semaphore = sem_open(SEM_LOCATION, 0)) == SEM_FAILED )
-    {
-        perror("sem_open");
-        exit(EXIT_FAILURE);
-    }
-}
-
-// Close a semaphore to deny access.
-void CloseSemaphore()
-{
-    if (sem_close(semaphore) == -1)
-    {
-        perror("sem_close");
-        exit(EXIT_FAILURE);
-    }
 }
 
 // Handler function for receiving an Interrupt (^C).
