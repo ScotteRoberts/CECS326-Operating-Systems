@@ -5,44 +5,15 @@
 //  Created by Scott Roberts on 9/29/17.
 //  Copyright © 2017 Scott Roberts. All rights reserved.
 //
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <sys/wait.h>
-#include <sys/sem.h>
-#include <semaphore.h>
-#include <stdbool.h>
-#include <signal.h>
+#include "gvariables.h"
 
 // Path = "/Users/ScottRoberts/Documents/GitHub/CECS326-Operating-Systems/SWIM_MILL_NEW/SWIM_MILL_NEW/"
 
-// Shared Memory Variables
-const int ROWS = 10;
-const int COLUMNS = 10;
-const key_t key = 1000;
-int shmID;
-char (*grid)[ROWS][COLUMNS];
-
-// Shared Memory Functions
-void GetSharedMemory();
-void AttachSharedMemory();
-void DetachSharedMemory();
-void RemoveSharedMemory();
-
-// Semaphore Variables
-#define SEM_LOCATION "/semaphore"
-sem_t (*semaphore);
-
-// Semaphore Functions
-void CreateOpenSemaphore();
-void CloseSemaphore();
+// Extra Semaphore Functions
 void UnlinkSemaphore();
 
 // Swim Mill Variables
-#define TIME_LIMIT 30
+
 pid_t fishPID;
 pid_t pelletPID;
 
@@ -79,11 +50,11 @@ int main(int argc, char *argv[])
     AttachSharedMemory();
     CreateGrid();
     
-    // Create/Open Semaphore for multi-process control
-    CreateOpenSemaphore();
-    
+    // Open Semaphore for multi-process control
+    OpenSemaphore();
+    fishPID = fork();
     // Start child Fish process
-    if((fishPID = fork()) == 0)
+    if(fishPID == 0)
     {
         execv("FISH", argv);
         exit(0);
@@ -109,69 +80,6 @@ int main(int argc, char *argv[])
         }
     }
     return 0;
-}
-
-// Create the allocated memory for the shared memory.
-void GetSharedMemory()
-{
-    
-    if((shmID = shmget(key, sizeof(grid), IPC_CREAT | 0666)) < 0)
-    {
-        perror("shmget");
-        exit(1);
-    }
-    
-}
-
-// Attach pointer to the allocated memory from shmget().
-void AttachSharedMemory()
-{
-    
-    if((grid = shmat(shmID, NULL, 0)) == (char *)-1)
-    {
-        perror("shmat");
-        exit(1);
-    }
-}
-
-// Remove memory pointer from the allocated memory.
-void DetachSharedMemory()
-{
-    if (shmdt(grid) == -1)
-    {
-        perror("shmdt");
-        exit(1);
-    }
-}
-
-// Remove the allocated memory from shared memory.
-void RemoveSharedMemory()
-{
-    if(shmctl(shmID, IPC_RMID, 0) == -1)
-    {
-        perror("shmctl");
-        exit(1);
-    }
-}
-
-// Create/Retrieve a semaphore from a named location.
-void CreateOpenSemaphore()
-{
-    if ((semaphore = sem_open(SEM_LOCATION, O_CREAT, 0644, 1)) == SEM_FAILED )
-    {
-        perror("sem_open");
-        exit(EXIT_FAILURE);
-    }
-}
-
-// Close a semaphore to deny access.
-void CloseSemaphore()
-{
-    if (sem_close(semaphore) == -1)
-    {
-        perror("sem_close");
-        exit(EXIT_FAILURE);
-    }
 }
 
 // Remove the semaphore from memory.
